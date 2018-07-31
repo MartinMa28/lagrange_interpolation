@@ -20,12 +20,18 @@ print('device:',devs)
 # plot the origin polynomial for this authentication
 x = np.linspace(neg_bound,pos_bound,100)
 y = poly(x)
-plt.plot(x, y, 'b--')
+
+fig, axes = plt.subplots(nrows=2,ncols=2)
+
+axes[0,0].plot(x, y, 'b--')
+axes[0,1].plot(x, y, 'b--')
 
 # compute devices' secret tokens
 tokens = np.array([poly(d) for d in devs])
 #tokens = np.array(list(map(poly, devs)))
-plt.plot(devs, tokens, 'r*', markersize = 12)
+axes[0,0].plot(devs, tokens, 'r*', markersize = 12)
+axes[1,0].plot(devs, tokens, 'r*', markersize = 12)
+
 
 print('tokens:',tokens)
 
@@ -33,8 +39,7 @@ poly_p = lagrange(devs, tokens)
 print(poly_p)
 x_p = np.linspace(neg_bound,pos_bound,100)
 y_p = poly_p(x_p)
-plt.plot(x_p, y_p, 'y')
-
-plt.legend(['polynomial', 'devices', 'lagrange interpolation'], loc='upper left')
-
+axes[0,0].plot(x_p, y_p, 'y')
+axes[1,1].plot(x_p, y_p, 'y')
+fig.legend(['polynomial', 'devices', 'lagrange interpolation'], loc='upper left')
 plt.show()
